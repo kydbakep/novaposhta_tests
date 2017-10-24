@@ -8,7 +8,7 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
 	&& apt-get -qqy install google-chrome-stable \
 	&& rm /etc/apt/sources.list.d/google-chrome.list \
 	&& rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
-	&& sed -i 's/"$HERE\/chrome"/"$HERE\/chrome" --no-sandbox/g' /opt/google/chrome/google-chrome
+	&& sed -i 's/"$HERE\/chrome"/"$HERE\/chrome" --no-sandbox/g' /opt/google/chrome/google-chrome \
     && sed -i 's/"$HERE\/chrome"/"$HERE\/chrome" --headless --disable-gpu/g' /opt/google/chrome/google-chrome
 
 # ChromeDriver
