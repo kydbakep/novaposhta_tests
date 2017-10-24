@@ -7,7 +7,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import ua.novaposhta.test.awis.helper.elements.Items;
 
-import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
@@ -29,19 +28,16 @@ public class Actions {
         return $(By.xpath("//span[.='" + name + "']"));
     }
 
-    public WebElement getMenuItem(String root, String name, String item) {
+    public WebElement getMenuItem(String root, String name, String item){
         getMenuItem(root).click();
 
         WebElement menuItem = $(By.xpath("(//span[.='" + name + "'])"));
-        $(menuItem).shouldBe(visible).scrollTo().hover();
+        $(menuItem).scrollTo().hover();
 
         WebElement submenuItem = $(By.xpath("(//span[.='" + item + "'])"));
         if (menuItem.isDisplayed()) {
-            try {
+            if (assertion.elementIsVisible($(By.xpath("(//span[.='" + item + "'])" + "[2]")),300)){
                 submenuItem = $(By.xpath("(//span[.='" + item + "'])" + "[2]"));
-                $(submenuItem).shouldBe(visible);
-            } catch (ElementNotFound notFound) {
-                submenuItem = $(By.xpath("(//span[.='" + item + "'])"));
             }
         }
         return submenuItem;

@@ -3,13 +3,6 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>RELEASE</version>
-        </dependency>
-    </dependencies>
 
     <parent>
         <groupId>org.apache.maven.plugins</groupId>
@@ -18,7 +11,7 @@
     </parent>
 
     <groupId>ua.novaposhta.test.awis</groupId>
-    <artifactId>novaposhta_awis_tests</artifactId>
+    <artifactId>novaposhta_testing</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <profiles>
@@ -77,7 +70,7 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
                             <includes>
-                                <!--<include>**/ua</include>-->
+                                <include>**/ua.novaposhta.test.awis</include>
                             </includes>
                         </configuration>
 
@@ -87,6 +80,8 @@
             <!--END OF PROFILE FOR AWIS-->
         </profile>
     </profiles>
+
+
 
     <build>
         <plugins>

@@ -9,7 +9,7 @@ import ua.novaposhta.test.awis.helper.Actions;
 import static com.codeborne.selenide.Selenide.$;
 
 public class Main {
-    public Main(){
+    public Main() {
     }
 
     private Actions action = new Actions();
@@ -25,19 +25,19 @@ public class Main {
         return $(currentUser).isDisplayed();
     }
 
-    public void moveTo(String root){
+    public void moveTo(String root) {
         WebElement element = action.getMenuItem(root);
         System.out.println(": " + element.getText());
         $(element).scrollTo().hover().click();
     }
 
-    public void moveTo(String root, String menu){
+    public void moveTo(String root, String menu) {
         WebElement element = action.getMenuItem(root, menu);
         System.out.println(": " + element.getText());
         $(element).scrollTo().hover().click();
     }
 
-    public void moveTo(String root, String menu, String subMenu){
+    public void moveTo(String root, String menu, String subMenu) throws InterruptedException {
         WebElement element = action.getMenuItem(root, menu, subMenu);
         System.out.println(": " + element.getText());
         $(element).scrollTo().hover().click();

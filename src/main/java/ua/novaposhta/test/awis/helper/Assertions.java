@@ -29,6 +29,15 @@ public class Assertions {
         }
     }
 
+    public boolean elementIsVisible(WebElement element, int time) {
+        try {
+            $(element).waitUntil(visible, time).isDisplayed();
+            return true;
+        } catch (ElementNotFound notFound){
+            return false;
+        }
+    }
+
     public boolean tableIsPresent() {
         try {
             WebElement table = $(By.xpath("//table[contains(@class,'x-grid-table')]"));
