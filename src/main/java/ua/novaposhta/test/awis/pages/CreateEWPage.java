@@ -40,7 +40,7 @@ public class CreateEWPage {
     // Починаємо створення ЕН. Клікаємо кнопку "Створити" і очікуємо на відкриття відповідної вкладки
     public void createNew() {
         WebElement createButton = $(By.xpath("//span[.='Створити']"));
-        System.out.println("Starting creation of new EN...");
+        System.out.println("Starting creation of new EW...");
         $(createButton).waitUntil(visible, 2000).click();
         WebElement tab = $(By.xpath("(//span[.='ЕН: нова'])[1]"));
         $(tab).waitUntil(Condition.appears, 2000);
@@ -62,7 +62,7 @@ public class CreateEWPage {
         $(writeButton).click(); // Записали
         $(tab).waitUntil(appears, 2000);
 
-        System.out.println("EN created: " + tab.getText());
+        System.out.println("EW created: " + tab.getText());
 
         WebElement OkButton = $(By.xpath("//span[contains(@id,'buttonWriteAndClose-btnIconEl')][last()]"));
         $(OkButton).click(); // ОКнули
