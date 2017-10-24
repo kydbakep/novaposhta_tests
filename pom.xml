@@ -3,6 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+    </dependencies>
 
     <parent>
         <groupId>org.apache.maven.plugins</groupId>
@@ -13,33 +20,73 @@
     <groupId>ua.novaposhta.test.awis</groupId>
     <artifactId>novaposhta_awis_tests</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <dependencies>
-        <!--FOR AWIS-->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-        </dependency>
-        <dependency>
-            <groupId>com.codeborne</groupId>
-            <artifactId>selenide</artifactId>
-            <version>4.8</version>
-        </dependency>
-        <!--FOR AWIS-->
 
-        <!--for API-->
-        <dependency>
-            <groupId>com.googlecode.json-simple</groupId>
-            <artifactId>json-simple</artifactId>
-            <version>1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20170516</version>
-        </dependency>
-        <!--for API-->
-    </dependencies>
+    <profiles>
+        <profile>
+            <!--PROFILE FOR WEB-->
+            <id>web</id>
+            <dependencies>
+                <dependency>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                    <version>4.12</version>
+                </dependency>
+                <dependency>
+                    <groupId>com.codeborne</groupId>
+                    <artifactId>selenide</artifactId>
+                    <version>4.8</version>
+                </dependency>
+            </dependencies>
+            <!--END OF PROFILE FOR WEB-->
+        </profile>
+        <profile>
+            <!--PROFILE FOR API-->
+            <id>api</id>
+            <dependencies>
+                <dependency>
+                    <groupId>com.googlecode.json-simple</groupId>
+                    <artifactId>json-simple</artifactId>
+                    <version>1.1</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.json</groupId>
+                    <artifactId>json</artifactId>
+                    <version>20170516</version>
+                </dependency>
+            </dependencies>
+            <!--ENF OF PROFILE FOR API-->
+        </profile>
+        <profile>
+            <!--PROFILE FOR AWIS-->
+            <id>awis</id>
+            <dependencies>
+                <dependency>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                    <version>4.12</version>
+                </dependency>
+                <dependency>
+                    <groupId>com.codeborne</groupId>
+                    <artifactId>selenide</artifactId>
+                    <version>4.8</version>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <includes>
+                                <!--<include>**/ua</include>-->
+                            </includes>
+                        </configuration>
+
+                    </plugin>
+                </plugins>
+            </build>
+            <!--END OF PROFILE FOR AWIS-->
+        </profile>
+    </profiles>
 
     <build>
         <plugins>
@@ -55,8 +102,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
             </plugin>
+
+            <!--Building executable JAR-->
             <plugin>
-                <!--Building executable JAR-->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
@@ -80,6 +128,8 @@
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
                 </configuration>
+                <!--END OF Building executable JAR-->
+
             </plugin>
         </plugins>
     </build>
