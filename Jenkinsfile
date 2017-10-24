@@ -35,7 +35,7 @@ node {
             String testName = ''
 
             if (env.TEST_CLASS) {
-                testName += " -Dtest=${env.TEST_CLASS_NAME}"
+                testName += " -Dtest=${env.TEST_CLASS}"
             }
 
             if (env.TEST_NAME) {
