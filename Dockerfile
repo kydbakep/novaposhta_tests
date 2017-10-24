@@ -33,6 +33,7 @@ RUN apt-get update -qqy \
 	&& rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 #ENV DISPLAY :99
 ENV DISPLAY :0
+
 #ADD start_test.sh /start_test.sh
 #RUN chmod a+x /start_test.sh
 
