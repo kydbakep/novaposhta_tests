@@ -1,7 +1,7 @@
 node {
     checkout scm
 
-    stage('Test of parameters') {
+    stage('Novaposhta test suite') {
         def environment = docker.build('tober_test_docker_build')
         environment.inside() {
 //==============================================================================
@@ -16,7 +16,7 @@ node {
             if (env.AWIS_PASSWORD) {
                 commandParams += " -Dawis.password=${env.AWIS_PASSWORD}"
             }
-//WEB   ------------------------------------------------------------------------
+// WEB -------------------------------------------------------------------------
             if (env.WEB_URL) {
                 commandParams += " -Dweb.url=${env.WEB_URL}"
             }
@@ -26,25 +26,20 @@ node {
             if (env.WEB_PASSWORD) {
                 commandParams += " -Dweb.password=${env.WEB_PASSWORD}"
             }
-//GOOGLE------------------------------------------------------------------------
-            if (env.GOOGLE_URL) {
-                commandParams += " -Dgoogle.url=${env.GOOGLE_URL}"
-            }
-            if (env.GOOGLE_QUERY) {
-                commandParams += " -Dgoogle.query=${env.GOOGLE_QUERY}"
+// IGNORE FAILURES -------------------------------------------------------------
+            if (env.MAVEN_IGNORE_FAILURES){
+                commandParams += " -Dmaven.test.failure.ignore=${env.MAVEN_IGNORE_FAILURES}"
             }
 //==============================================================================
 //==============================================================================
             String testName = ''
-// AWIS ------------------------------------------------------------------------
-            if (env.TEST_NAME) {
-                testName += " -Dtest=#${env.TEST_NAME}"
+
+            if (env.TEST_CLASS) {
+                testName += " -Dtest=${env.TEST_CLASS_NAME}"
             }
 
-            String testSuite = ''
-// AWIS ------------------------------------------------------------------------
-            if (env.TEST_SUITE) {
-                testSuite += " -P${env.TEST_SUITE}"
+            if (env.TEST_NAME) {
+                testName += "#${env.TEST_NAME}"
             }
 //==============================================================================
 //            Удалять все говно!
@@ -52,7 +47,7 @@ node {
 
 //            sh "Xvfb :99 -ac -screen 0 1920x1080x24 &"
             sh "Xvfb :0 -ac -screen 0 1920x1080x24 &"
-            sh "mvn clean test" + testSuite + commandParams + testName
+            sh "mvn clean test" + commandParams + testName
         }
     }
     stage('Results log') {

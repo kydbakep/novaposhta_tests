@@ -11,8 +11,8 @@ import ua.novaposhta.test.awis.properties.Presets;
 
 import java.io.IOException;
 
-public class DocumentsOKButtonsTest {
-    public DocumentsOKButtonsTest() throws IOException {
+public class Awis_DocumentsOKButtonsTest {
+    public Awis_DocumentsOKButtonsTest() throws IOException {
     }
 
     private Main main = new Main();

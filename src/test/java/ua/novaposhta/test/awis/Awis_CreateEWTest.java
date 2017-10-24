@@ -11,8 +11,8 @@ import ua.novaposhta.test.awis.properties.Presets;
 
 import java.io.IOException;
 
-public class CreateEWTest {
-    public CreateEWTest() throws IOException {}
+public class Awis_CreateEWTest {
+    public Awis_CreateEWTest() throws IOException {}
 
     private Main main = new Main();
     private Actions action = new Actions();
