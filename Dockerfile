@@ -2,7 +2,6 @@ FROM maven:3.3.9-jdk-8
 WORKDIR /usr/src/novaposhta
 # Google Chrome
 
-RUN docker cp
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
 	&& echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
 	&& apt-get update -qqy \
