@@ -104,13 +104,6 @@ public class DocumentsOKButtonsTest {
         action.choiceTableElement(1);
         action.clickOKButton();
     }
-
-    @Test
-    public void logistic_additionalServiceOrder2() throws InterruptedException, IOException {
-        main.moveTo("Довідники", "Населені пункти", "Населені пункти");
-        action.choiceTableElement(1);
-        action.clickOKButton();
-    }
 }
 
 
