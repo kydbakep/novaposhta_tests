@@ -14,6 +14,7 @@
     <artifactId>novaposhta_awis_tests</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <dependencies>
+        <!--FOR AWIS-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -24,6 +25,20 @@
             <artifactId>selenide</artifactId>
             <version>4.8</version>
         </dependency>
+        <!--FOR AWIS-->
+
+        <!--for API-->
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20170516</version>
+        </dependency>
+        <!--for API-->
     </dependencies>
 
     <build>

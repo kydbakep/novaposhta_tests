@@ -1,0 +1,8 @@
+{
+  "modelName": "CorporateUserGeneral",
+  "calledMethod": "getCorporateByLogin",
+  "methodProperties": {
+    "Login": "50cdd",
+    "Password": "1234"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "modelName": "AddressGeneral",
+  "calledMethod": "getSettlements",
+  "methodProperties": {
+    "Page": "2"
+  }
+}

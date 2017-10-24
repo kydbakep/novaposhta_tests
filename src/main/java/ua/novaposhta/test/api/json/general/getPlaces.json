@@ -1,0 +1,9 @@
+{
+  "modelName": "AddressGeneral",
+  "calledMethod": "getSettlementCountryRegion",
+  "methodProperties": {
+    "MainCitiesOnly": true,
+    "AreaRef": "dcaadf02-4b33-11e4-ab6d-005056801329"
+  },
+  "apiKey": "61db1acc916c9e475811914643f310d0"
+}

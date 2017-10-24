@@ -1,0 +1,17 @@
+{
+  "apiKey": "38d9f4c9c98686aca629634a245d7828",
+  "modelName": "Counterparty",
+  "calledMethod": "save",
+  "methodProperties": {
+    "CityRef": "8d5a980d-391c-11dd-90d9-001a92567626",
+    "FirstName": "",
+    "MiddleName": "",
+    "LastName": "",
+    "Phone": "",
+    "Email": "",
+    "CounterpartyType": "Organization",
+    "CounterpartyProperty": "ThirdPerson",
+    "EDRPOU": "36471822",
+    "OwnershipForm": ""
+  }
+}

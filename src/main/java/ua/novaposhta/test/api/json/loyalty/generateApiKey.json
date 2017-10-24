@@ -1,0 +1,8 @@
+{
+  "modelName": "LoyaltyUser",
+  "calledMethod": "getLoyaltyUserByLogin",
+  "methodProperties": {
+    "Login": "50cdd@hell.yeah",
+    "Password": "1234"
+  }
+}

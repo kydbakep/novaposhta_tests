@@ -1,0 +1,32 @@
+{
+  "apiKey": "f1ea29c616acff2634344f5eadd194f2",
+  "modelName": "InternetDocument",
+  "calledMethod": "save",
+  "methodProperties": {
+    "NewAddress": "1",
+    "PayerType": "Sender",
+    "PaymentMethod": "Cash",
+    "CargoType": "Cargo",
+    "VolumeGeneral": "0.1",
+    "Weight": "10",
+    "ServiceType": "WarehouseDoors",
+    "SeatsAmount": "1",
+    "Description": "абажур",
+    "Cost": "500",
+    "CitySender": "8d5a980d-391c-11dd-90d9-001a92567626",
+    "Sender": "3ac5fe8a-1dc4-11e7-8ba8-005056881c6b",
+    "SenderAddress": "12e9d4f0-a9a3-11e7-becf-005056881c6b",
+    "ContactSender": "3aca0bfa-1dc4-11e7-8ba8-005056881c6b",
+    "SendersPhone": "380661313131",
+    "RecipientCityName": "київ",
+    "RecipientArea": "",
+    "RecipientAreaRegions": "",
+    "RecipientAddressName": "Столичне шосе",
+    "RecipientHouse": "20",
+    "RecipientFlat": "37",
+    "RecipientName": "Тест Тест Тест",
+    "RecipientType": "PrivatePerson",
+    "RecipientsPhone": "380991234567",
+    "DateTime": "26.06.2017"
+  }
+}

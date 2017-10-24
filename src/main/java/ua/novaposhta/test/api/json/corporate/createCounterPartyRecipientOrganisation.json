@@ -1,0 +1,17 @@
+{
+  "apiKey": "38d9f4c9c98686aca629634a245d7828",
+  "modelName": "Counterparty",
+  "calledMethod": "save",
+  "methodProperties": {
+    "CityRef": "8d5a980d-391c-11dd-90d9-001a92567626",
+    "FirstName": "Контора студіо",
+    "MiddleName": "",
+    "LastName": "",
+    "Phone": "",
+    "Email": "",
+    "EDRPOU": "",
+    "CounterpartyType": "Organization",
+    "CounterpartyProperty": "Recipient",
+    "OwnershipForm": "7f0f351d-2519-11df-be9a-000c291af1b3"
+  }
+}

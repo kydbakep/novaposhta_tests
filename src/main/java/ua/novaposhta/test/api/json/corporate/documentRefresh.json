@@ -1,0 +1,28 @@
+{
+  "apiKey": "38d9f4c9c98686aca629634a245d7828",
+  "modelName": "InternetDocument",
+  "calledMethod": "update",
+  "methodProperties": {
+    "Ref": "47eeb696-a9a3-11e7-becf-005056881c6b",
+    "PayerType": "Sender",
+    "PaymentMethod": "Cash",
+    "DateTime": "05.10.2017",
+    "CargoType": "Cargo",
+    "VolumeGeneral": "0.1",
+    "Weight": "10",
+    "ServiceType": "WarehouseDoors",
+    "SeatsAmount": "1",
+    "Description": "abajur",
+    "Cost": "500",
+    "CitySender": "8d5a980d-391c-11dd-90d9-001a92567626",
+    "Sender": "aa036fd8-75f1-11e7-8ba8-005056881c6b",
+    "SenderAddress": "12e9d4f0-a9a3-11e7-becf-005056881c6b",
+    "ContactSender": "aa145ec3-75f1-11e7-8ba8-005056881c6b",
+    "SendersPhone": "380661313132",
+    "CityRecipient": "8d5a980d-391c-11dd-90d9-001a92567626",
+    "Recipient": "aa188fd1-75f1-11e7-8ba8-005056881c6b",
+    "RecipientAddress": "12e9d4f0-a9a3-11e7-becf-005056881c6b",
+    "ContactRecipient": "190d9c3b-7782-11e7-8ba8-005056881c6b",
+    "RecipientsPhone": "380997979789"
+  }
+}

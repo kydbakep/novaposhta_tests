@@ -1,0 +1,32 @@
+{
+  "apiKey": "38d9f4c9c98686aca629634a245d7828",
+  "modelName": "InternetDocument",
+  "calledMethod": "save",
+  "methodProperties": {
+    "NewAddress": "1",
+    "PayerType": "Sender",
+    "PaymentMethod": "Cash",
+    "CargoType": "Cargo",
+    "VolumeGeneral": "0.1",
+    "Weight": "100",
+    "ServiceType": "WarehouseWarehouse",
+    "SeatsAmount": "1",
+    "Description": "фольксваген",
+    "Cost": "500",
+    "CitySender": "8d5a980d-391c-11dd-90d9-001a92567626",
+    "Sender": "aa036fd8-75f1-11e7-8ba8-005056881c6b",
+    "SenderAddress": "12e9d4f0-a9a3-11e7-becf-005056881c6b",
+    "ContactSender": "aa145ec3-75f1-11e7-8ba8-005056881c6b",
+    "SendersPhone": "380661313132",
+    "RecipientCityName": "київ",
+    "RecipientArea": "",
+    "RecipientAreaRegions": "",
+    "RecipientAddressName": "1",
+    "RecipientHouse": "",
+    "RecipientFlat": "",
+    "RecipientName": "Тест Тест Тест",
+    "RecipientType": "PrivatePerson",
+    "RecipientsPhone": "380991234567",
+    "DateTime": "05.10.2017"
+  }
+}

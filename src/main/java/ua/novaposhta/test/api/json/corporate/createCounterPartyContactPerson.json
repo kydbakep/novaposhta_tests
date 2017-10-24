@@ -1,0 +1,12 @@
+{
+  "modelName": "ContactPerson",
+  "apiKey": "38d9f4c9c98686aca629634a245d7828",
+  "methodProperties": {
+    "CounterpartyRef": "aa188fd1-75f1-11e7-8ba8-005056881c6b",
+    "LastName": "Тестеренко",
+    "FirstName": "ТОБЕРМОРИ",
+    "MiddleName": "Тоберович",
+    "Phone": "+380888888888"
+  },
+  "calledMethod": "save"
+}
