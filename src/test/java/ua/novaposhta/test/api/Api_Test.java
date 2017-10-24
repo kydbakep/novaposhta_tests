@@ -8,9 +8,9 @@ import ua.novaposhta.test.api.classes.ResponseParser;
 
 import java.io.IOException;
 
-public class Api_APITest {
+public class Api_Test {
 
-    public Api_APITest() throws IOException, ParseException {
+    public Api_Test() throws IOException, ParseException {
     }
 
     private RequestSender sender = new RequestSender();

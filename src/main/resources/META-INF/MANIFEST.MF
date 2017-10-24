@@ -1,3 +1,4 @@
 Manifest-Version: 1.0
-Main-Class: awis.Main
-Class-Path: .:target:classes:awis.Main
+Class-Path: .:target:classes:awis.*
+Main-Class: ua.novaposhta.test.awis.MainClass
+
