@@ -1,6 +1,6 @@
 package ua.novaposhta.test.web.pages;
 
-import General.PropertyLoader;
+import ua.novaposhta.test.properties.PropertyLoader;
 import com.codeborne.selenide.Condition;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
