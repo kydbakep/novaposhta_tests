@@ -15,10 +15,10 @@ import java.sql.SQLException;
 
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
-public class Web_WebclientTests {
+public class Web_ClientTests {
     private PropertyLoader property = new PropertyLoader("web");
 
-    public Web_WebclientTests() throws IOException {
+    public Web_ClientTests() throws IOException {
     }
 
     @Before
