@@ -1,7 +1,7 @@
-package ua.novaposhta.test.awis.helper.elements;
+package ua.novaposhta.test.helper.elements;
 
 import org.openqa.selenium.By;
-import ua.novaposhta.test.awis.helper.Assertions;
+import ua.novaposhta.test.helper.Assertions;
 
 import java.util.ArrayList;
 

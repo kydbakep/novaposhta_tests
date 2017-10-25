@@ -1,11 +1,11 @@
-package ua.novaposhta.test.awis.helper;
+package ua.novaposhta.test.helper;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ex.ElementNotFound;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import ua.novaposhta.test.awis.helper.elements.Items;
+import ua.novaposhta.test.helper.elements.Items;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;

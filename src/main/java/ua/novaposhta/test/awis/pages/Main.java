@@ -4,7 +4,7 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ex.ElementNotFound;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import ua.novaposhta.test.awis.helper.Actions;
+import ua.novaposhta.test.helper.Actions;
 
 import static com.codeborne.selenide.Selenide.$;
 

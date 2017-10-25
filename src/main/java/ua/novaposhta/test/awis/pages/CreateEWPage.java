@@ -8,8 +8,8 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import ua.novaposhta.test.awis.helper.Actions;
-import ua.novaposhta.test.awis.helper.Assertions;
+import ua.novaposhta.test.helper.Actions;
+import ua.novaposhta.test.helper.Assertions;
 
 import java.io.IOException;
 

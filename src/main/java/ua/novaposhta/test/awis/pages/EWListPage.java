@@ -1,6 +1,6 @@
 package ua.novaposhta.test.awis.pages;
 
-import ua.novaposhta.test.awis.helper.Actions;
+import ua.novaposhta.test.helper.Actions;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ex.ElementNotFound;
 import org.openqa.selenium.By;

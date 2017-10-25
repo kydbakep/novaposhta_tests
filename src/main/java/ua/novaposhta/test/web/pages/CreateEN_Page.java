@@ -4,8 +4,12 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import ua.novaposhta.test.helper.Assertions;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
@@ -23,6 +27,8 @@ public class CreateEN_Page {
         }
     }
 
+    private Assertions assertions = new Assertions();
+
     private void checkForRefreshed(WebElement element) {
         try {
             $(element).shouldBe(Condition.disappears);
@@ -34,6 +40,7 @@ public class CreateEN_Page {
 
 // SENDER AND RECIPIENT ================================================================================================
 
+    //TODO: make this working and private
     private void startEditCounterparty(String type) {
         if (type.equals("sender")) {
             System.out.println("Обираю відправника");
@@ -50,9 +57,19 @@ public class CreateEN_Page {
         WebElement cityEl = $(By.xpath(".//*[@id='cities_ul']//a[normalize-space(text()) = normalize-space('" + city + "')]"));
         $(By.xpath("//input[@id='filter_journal_cities']//../div")).shouldBe(Condition.visible).click();
         $(cityEl).waitUntil(Condition.visible, 2500);
+//        while (true) {
+//            if (!$(citySelected).getText().equals(city)) {
+//                $(cityEl).scrollTo().hover().click();
+//                if ($(citySelected).getText().equals(city)) {
+//                    System.out.println("Обрано місто: " + $(citySelected).getText());
+//                    break;
+//                }
+//            } else break;
+//        }
+
         while (true) {
-            if (!$(citySelected).getText().equals(city)) {
-                $(cityEl).click();
+            if (assertions.elementIsVisible(citySelected)){
+                $(cityEl).scrollTo().hover().click();
                 if ($(citySelected).getText().equals(city)) {
                     System.out.println("Обрано місто: " + $(citySelected).getText());
                     break;
@@ -67,8 +84,9 @@ public class CreateEN_Page {
         WebElement wHouse = $(By.xpath(".//li[@data-warehouse='true']" +
                 "[contains(@data-description,'№" + warehouse + ":') or " + //Двокрапка після номера відділення
                 " contains(@data-description,'№ " + warehouse + " ') or " + //Номер відділення в пробілах
+                " contains(@data-description,'№" + warehouse + " ') or " + //Номер відділення в пробілах
                 " contains(@data-description,'№" + warehouse + " ')]")); //Пробіл після номера відділення
-        $(wHouse).scrollTo().click();
+        $(wHouse).scrollTo().hover().click();
 
         System.out.println("Обрано відділення: " + wHouseSelected.getText());
     }

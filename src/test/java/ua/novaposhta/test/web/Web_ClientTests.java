@@ -1,10 +1,10 @@
 package ua.novaposhta.test.web;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import ua.novaposhta.test.properties.Presets;
 import ua.novaposhta.test.properties.PropertyLoader;
+import ua.novaposhta.test.web.debug.CreateEW;
 import ua.novaposhta.test.web.methods.BrowserDriver;
 import ua.novaposhta.test.web.pages.*;
 
@@ -27,7 +27,7 @@ public class Web_ClientTests {
         presets.loadPresets();
     }
 
-    @After
+    //    @After
     public void clearState() throws IOException, InterruptedException {
         Main_Page main = new Main_Page();
         if (main.logged()) {
@@ -102,16 +102,27 @@ public class Web_ClientTests {
 
     @Test // Create EN
     public void createEN() throws IOException, InterruptedException {
+        //INFO: Tested and working
         loginAsLoyal();
         CreateEN_Page createEN = new CreateEN_Page();
-        createEN.setCounterparty("sender", property.load("s.city"), property.load("s.warehouse"), property.load("s.phone"));
-        createEN.setCounterparty("recipient", property.load("r.city"), property.load("r.warehouse"), property.load("r.phone"));
-        createEN.setPayer("третя особа", property.load("edrpou"));
-        createEN.setPayer("sender", "cash");
-        createEN.setDate(property.load("desirableDays")); // Бажана дата доставки - через скільки днів
-        createEN.setCargo("документи", "0.1", 2, 125, "Опис відправлення");
-        createEN.printDocument("EN", "html"); // EN/ЕН - html/pdf; marking/маркування - html, html-zebra, pdf-zebra
-        createEN.goTo("EN");
+//        createEN.setCounterparty("sender", property.load("s.city"), property.load("s.warehouse"), property.load("s.phone"));
+//        createEN.setCounterparty("recipient", property.load("r.city"), property.load("r.warehouse"), property.load("r.phone"));
+        //INFO: ==================
+
+        //TODO: need to be debugged
+        //Платник
+        CreateEW createEW = new CreateEW();
+
+        createEW.setPayer("третя особа", "безготівковий", property.load("edrpou"));
+
+
+//        createEN.setPayer("sender", "non-cash", property.load("edrpou"));
+//        createEN.setDate(property.load("desirableDays")); // Бажана дата доставки - через скільки днів
+//        createEN.setCargo("документи", "0.1", 2, 125, "Опис відправлення");
+//        createEN.printDocument("EN", "html"); // EN/ЕН - html/pdf; marking/маркування - html, html-zebra, pdf-zebra
+//        createEN.goTo("EN");
+
+
 //        createEN.setRedeliveryObject("гроші");
     }
 

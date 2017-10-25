@@ -1,4 +1,4 @@
-package ua.novaposhta.test.awis.helper.elements;
+package ua.novaposhta.test.helper.elements;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;

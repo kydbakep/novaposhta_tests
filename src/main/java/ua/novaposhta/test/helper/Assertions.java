@@ -1,4 +1,4 @@
-package ua.novaposhta.test.awis.helper;
+package ua.novaposhta.test.helper;
 
 import com.codeborne.selenide.ex.ElementNotFound;
 import org.openqa.selenium.Alert;

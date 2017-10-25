@@ -2,7 +2,7 @@ package ua.novaposhta.test.awis;
 
 import org.junit.Before;
 import org.junit.Test;
-import ua.novaposhta.test.awis.helper.Assertions;
+import ua.novaposhta.test.helper.Assertions;
 import ua.novaposhta.test.awis.pages.Auth;
 import ua.novaposhta.test.awis.pages.CreateEWPage;
 import ua.novaposhta.test.awis.pages.EWListPage;
