@@ -43,6 +43,7 @@
                 </configuration>
             </plugin>
             <plugin>
+                <!--Builds JAR with dependencies-->
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
                     <archive>
@@ -81,15 +82,26 @@
             <version>4.8</version>
         </dependency>
         <dependency>
+            <!--Parsing JSON for API tests-->
             <groupId>com.googlecode.json-simple</groupId>
             <artifactId>json-simple</artifactId>
             <version>1.1.1</version>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>
+            <!--Provides JSONException-->
             <artifactId>json</artifactId>
             <version>20160810</version>
+            <!--END OF Parsing JSON for API tests-->
         </dependency>
+        <dependency>
+            <!--MySQL connector : JDBC-->
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.39</version>
+            <!-- END OF MySQL connector : JDBC-->
+        </dependency>
+
     </dependencies>
 
 

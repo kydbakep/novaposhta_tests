@@ -16,7 +16,7 @@ public class EWListPage {
         Actions a = new Actions();
 
         WebElement numberFilterField = $(By.xpath("//input[contains(@aria-describedby,'NumberFilter')]"));
-        $(numberFilterField).waitUntil(Condition.visible,2000).setValue(number).pressEnter();
+        $(numberFilterField).waitUntil(Condition.visible, 2000).setValue(number).pressEnter();
 
         WebElement en = $(By.xpath("//div[.='" + number + "']"));
         $(en).waitUntil(Condition.visible, 2000);
@@ -25,7 +25,8 @@ public class EWListPage {
         System.out.print("trying to choice EN №: " + number);
         $(en).doubleClick();
 
-        try {WebElement tab = $(By.xpath("//span[contains(text(),'" + number + "')]"));
+        try {
+            WebElement tab = $(By.xpath("//span[contains(text(),'" + number + "')]"));
             $(tab).waitUntil(Condition.appears, 2000);
             System.out.println(" ... OK");
         } catch (ElementNotFound notFound) {
@@ -40,9 +41,14 @@ public class EWListPage {
         assert $(tabCloseButton).isDisplayed();
 
         $(tabCloseButton).click();
-        $(tab).waitUntil(Condition.disappears,1000);
+        $(tab).waitUntil(Condition.disappears, 1000);
 
         Main mainPage = new Main();
         assert mainPage.logged();
+    }
+
+    public void pressButton(String element) {
+        WebElement button = $(By.xpath("//button[@data-qtip='" + element + "']"));
+        $(button).click();
     }
 }

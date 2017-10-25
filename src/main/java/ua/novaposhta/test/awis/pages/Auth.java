@@ -3,7 +3,7 @@ package ua.novaposhta.test.awis.pages;
 import com.codeborne.selenide.Condition;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import ua.novaposhta.test.awis.properties.PropertyLoader;
+import ua.novaposhta.test.properties.PropertyLoader;
 
 import java.io.IOException;
 

@@ -7,7 +7,7 @@ import ua.novaposhta.test.awis.helper.Actions;
 import ua.novaposhta.test.awis.helper.Assertions;
 import ua.novaposhta.test.awis.pages.Auth;
 import ua.novaposhta.test.awis.pages.Main;
-import ua.novaposhta.test.awis.properties.Presets;
+import ua.novaposhta.test.properties.Presets;
 
 import java.io.IOException;
 

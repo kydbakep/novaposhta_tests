@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import ua.novaposhta.test.awis.helper.Actions;
+import ua.novaposhta.test.awis.helper.Assertions;
 
 import java.io.IOException;
 
@@ -21,7 +22,8 @@ public class CreateEWPage {
     public CreateEWPage() throws IOException {
     }
 
-    private Actions a = new Actions();
+    private String number;
+    private Actions action = new Actions();
 
     public boolean isLoad() {
         WebElement tab = $(By.xpath("//span[.='ЕН: нова']"));
@@ -63,12 +65,35 @@ public class CreateEWPage {
         $(tab).waitUntil(appears, 2000);
 
         System.out.println("EW created: " + tab.getText());
+        setNumber();
 
         WebElement OkButton = $(By.xpath("//span[contains(@id,'buttonWriteAndClose-btnIconEl')][last()]"));
         $(OkButton).click(); // ОКнули
 
         $(tab).waitUntil(disappears, 3000);
     }
+
+    private void setNumber() {
+        WebElement number = $(By.xpath("//input[@name='Number']"));
+        WebElement tab = $(By.xpath("//span[contains(text(),'" + $(number).getValue() + "')][last()]"));
+        String[] num = tab.getText().split(" ");
+        this.number = (num[1]);
+    }
+
+    private boolean EWCreated() throws IOException {
+        Assertions assertion = new Assertions();
+        WebElement ew = $(By.xpath("//div[.='" + number + "']"));
+        return assertion.elementIsVisible(ew);
+    }
+
+    public void isEWInList() throws IOException {
+        if (EWCreated()) {
+            System.out.println("ЕН присутня у списку");
+        } else {
+            System.out.println("ЕН відсутня у списку");
+        }
+    }
+
 
 // SENDER/RECIPIENT BLOCK ==============================================================================================
 
@@ -107,34 +132,19 @@ public class CreateEWPage {
     private void setCPHeader(String counterParty, String type, String phone) {
         WebElement setCPButton = $(By.xpath("(//input[@name='Counterparty" + counterParty + "']/../div/div[1])[last()]"));
         WebElement cpTypeDialog = $(By.xpath("(//div[contains(@id,'CounterpartyTypeDialog')][contains(@class,'window-closable')])[last()]"));
+        WebElement cpFindForm = $(By.xpath("(//div[contains(@class,'window-closable')]//div[contains(@id,'GridFoundCounterparties')])[last()]"));
         $(setCPButton).waitUntil(visible, 2000);
-        while (true) {
-            if (!cpTypeDialog.isDisplayed()) {
-                try {
-                    $(setCPButton).shouldBe(exist).click();
-                    $(cpTypeDialog).shouldBe(appears);
-                } catch (Throwable throwable) {
-//                    System.out.println("\n catch: " + throwable.getMessage());
-                    $(setCPButton).click();
-                    $(cpTypeDialog).shouldBe(appears);
-                }
 
-            } else {
-                break;
+        try {
+            while (!$(cpFindForm).isDisplayed()) {
+                $(setCPButton).click();
             }
+        } catch (ElementNotFound ignored) {
         }
-        WebElement cpType = $(By.xpath("(//span[.='" + type + "'])[last()]"));
-        while (true) {
-            if (cpTypeDialog.isDisplayed()) {
-                try {
-                    $(cpType).click();
-                    $(cpTypeDialog).shouldBe(disappears);
-                } catch (Throwable throwable) {
-                    System.out.println(throwable.getMessage());
-                    $(cpType).click();
-                    $(cpTypeDialog).shouldBe(disappears);
-                }
-            } else break;
+
+        if (cpTypeDialog.isDisplayed()) {
+            WebElement cpType = $(By.xpath("(//span[.='" + type + "'])[last()]"));
+            $(cpType).click();
         }
         WebElement phoneNumber = $(By.xpath("//input[@name='PhoneNumber']"));
         $(phoneNumber).waitUntil(Condition.appear, 1000);
@@ -612,7 +622,7 @@ public class CreateEWPage {
             throw new IllegalMonitorStateException("Red alert is present. Can't click 'write' button!");
         } catch (ElementNotFound notFound) {
             $(writeButton).waitUntil(Condition.visible, 1000).click();
-            a.acceptAlert();
+            action.acceptAlert();
         }
     }
 
@@ -638,11 +648,11 @@ public class CreateEWPage {
 
         WebElement close = $(By.xpath("//span[contains(@id,'buttonWriteAndClose')]"));
         $(close).click();
-        a.acceptAlert();
+        action.acceptAlert();
 
         WebElement activeTabCloseButton = $(By.xpath("//div[contains(@class,'x-tab-active')]/a"));
         $(activeTabCloseButton).click();
-        a.acceptAlert();
+        action.acceptAlert();
     }
 
     public void close() throws IOException {

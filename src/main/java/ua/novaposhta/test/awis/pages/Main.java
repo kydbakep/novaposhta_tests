@@ -42,4 +42,21 @@ public class Main {
         System.out.println(": " + element.getText());
         $(element).scrollTo().hover().click();
     }
+
+    public void logOut(){
+        WebElement authFrame = $(By.xpath("//span[.='Вхід в систему']"));
+        WebElement userMenu = $(By.xpath("//span[@id='WorkspaceInfoLabel-btnInnerEl']"));
+        WebElement exitButton = $(By.xpath("//span[.='Вихід']"));
+
+        if ($(userMenu).isDisplayed()){
+            userMenu.click();
+            $(exitButton).click();
+            WebElement confirmationDialogButtonYes = $(By.xpath("//div[contains(@id,'messagebox')]" +
+                    "[contains(@class,'window-closable')]" +
+                    "//span[contains(@id,'button')][.='Yes']"));
+            $(confirmationDialogButtonYes).click();
+            $(confirmationDialogButtonYes).shouldBe(Condition.disappears);
+            $(authFrame).waitUntil(Condition.appears,2000);
+        }
+    }
 }
