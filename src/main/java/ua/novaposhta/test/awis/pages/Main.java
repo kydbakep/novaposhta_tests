@@ -4,7 +4,7 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ex.ElementNotFound;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import ua.novaposhta.test.helper.Actions;
+import ua.novaposhta.test.helper.Awis_Actions;
 
 import static com.codeborne.selenide.Selenide.$;
 
@@ -12,7 +12,7 @@ public class Main {
     public Main() {
     }
 
-    private Actions action = new Actions();
+    private Awis_Actions action = new Awis_Actions();
 
     private WebElement currentUser = $(By.xpath("//span[@id='WorkspaceInfoLabel-btnInnerEl']"));
 

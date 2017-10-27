@@ -10,8 +10,8 @@ import ua.novaposhta.test.helper.elements.Items;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
-public class Actions {
-    public Actions() {
+public class Awis_Actions {
+    public Awis_Actions() {
     }
 
     private Items item = new Items();

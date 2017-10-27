@@ -1,6 +1,6 @@
 package ua.novaposhta.test.awis.pages;
 
-import ua.novaposhta.test.helper.Actions;
+import ua.novaposhta.test.helper.Awis_Actions;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ex.ElementNotFound;
 import org.openqa.selenium.By;
@@ -13,7 +13,7 @@ import static com.codeborne.selenide.Selenide.$;
 public class EWListPage {
 
     public void choiceEN(String number) throws InterruptedException {
-        Actions a = new Actions();
+        Awis_Actions a = new Awis_Actions();
 
         WebElement numberFilterField = $(By.xpath("//input[contains(@aria-describedby,'NumberFilter')]"));
         $(numberFilterField).waitUntil(Condition.visible, 2000).setValue(number).pressEnter();

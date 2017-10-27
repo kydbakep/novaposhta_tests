@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import ua.novaposhta.test.helper.Assertions;
 import ua.novaposhta.test.awis.pages.Auth;
-import ua.novaposhta.test.awis.pages.CreateEWPage;
+import ua.novaposhta.test.awis.pages.Awis_CreateEWPage;
 import ua.novaposhta.test.awis.pages.EWListPage;
 import ua.novaposhta.test.awis.pages.Main;
 import ua.novaposhta.test.properties.Presets;
@@ -32,41 +32,41 @@ public class Awis_CreateEWTest {
     public void createEW() throws IOException, InterruptedException {
         main.moveTo("Документи", "Експрес-накладна");
 
-        CreateEWPage createEWPage = new CreateEWPage();
+        Awis_CreateEWPage awisCreateEWPage = new Awis_CreateEWPage();
         // Починаємо створення нової ЕН
-        createEWPage.createNew();
+        awisCreateEWPage.createNew();
 
         // Параметри відправника
-        createEWPage.setCity("Sender", "м. Київ, Київська обл.");
-        createEWPage.setCounterParty("Sender", "Приватна особа", "0111111111");
-        createEWPage.setAddress("Sender", "Милославська, 31-б");
+        awisCreateEWPage.setCity("Sender", "м. Київ, Київська обл.");
+        awisCreateEWPage.setCounterParty("Sender", "Приватна особа", "0111111111");
+        awisCreateEWPage.setAddress("Sender", "Милославська, 31-б");
 
         // Параметри отримувача
-        createEWPage.setCity("Recipient", "м. Бровари, Київська обл., Броварський р-н");
-        createEWPage.setCounterParty("Recipient", "Організація", "0633200117");
-        createEWPage.setAddress("Recipient", "Шевченка, 167");
+        awisCreateEWPage.setCity("Recipient", "м. Бровари, Київська обл., Броварський р-н");
+        awisCreateEWPage.setCounterParty("Recipient", "Організація", "0633200117");
+        awisCreateEWPage.setAddress("Recipient", "Шевченка, 167");
 
         // Параметри платника
-        createEWPage.setPayer("відправник", "готівка"); // відправник/отримувач/третя особа | готівка/безготівковий
-        createEWPage.setBackwardDeliveryPayer("отримувач");
-        createEWPage.setBackwardDeliveryCargo("Інше", "сало в шоколаді"); // Документи/Гроші/Інше/Кредитні документи
+        awisCreateEWPage.setPayer("відправник", "готівка"); // відправник/отримувач/третя особа | готівка/безготівковий
+        awisCreateEWPage.setBackwardDeliveryPayer("отримувач");
+        awisCreateEWPage.setBackwardDeliveryCargo("Інше", "сало в шоколаді"); // Документи/Гроші/Інше/Кредитні документи
 
         // Параметри відправлення
-        createEWPage.setCargoType("Посилка");
-        createEWPage.setCargoParameters("1", "25");
-        createEWPage.setDescription("соловей в дерев'яній клітці");
+        awisCreateEWPage.setCargoType("Посилка");
+        awisCreateEWPage.setCargoParameters("1", "25");
+        awisCreateEWPage.setDescription("соловей в дерев'яній клітці");
 
         // Присвоєння номера ЕН
-        createEWPage.setNewNumber();
+        awisCreateEWPage.setNewNumber();
 
         // Збереження ЕН
-        createEWPage.writeEN();
+        awisCreateEWPage.writeEN();
 
         // Оновити список ЕН
         EWListPage listPage = new EWListPage();
         listPage.pressButton("Освіжити");
 
         // Перевірити чи з'явилася в ньому ЕН з присвоєним раніше номером
-        createEWPage.isEWInList();
+        awisCreateEWPage.isEWInList();
     }
 }

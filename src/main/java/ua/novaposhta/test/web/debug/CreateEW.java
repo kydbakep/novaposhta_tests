@@ -4,11 +4,21 @@ import com.codeborne.selenide.Condition;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import ua.novaposhta.test.helper.Assertions;
+import ua.novaposhta.test.web.pages.Main_Page;
 
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 public class CreateEW {
     public CreateEW() {
+        String pageURL = "https://my.novaposhta.ua/newOrder/index";
+        if (!getWebDriver().getCurrentUrl().equals(pageURL)) {
+            Main_Page mainPage = new Main_Page();
+            if (mainPage.logged()) { // If we are LOGGED IN
+                open(pageURL);
+            }
+        }
     }
 
     private Assertions assertions = new Assertions();
@@ -24,13 +34,15 @@ public class CreateEW {
 
             WebElement payerIsThirdPerson = $(By.xpath("//button[@id='ThirdPersonPayer']"));
             $(payerIsThirdPerson).click();
+            WebElement thirdPersonInfoBlock = $(By.xpath("//dl[@id='ThirdPersonInfoTable']"));
             $(thirdPersonInfoBlock).shouldBe(Condition.appears);
             $(thirdPersonSelectButton).scrollTo().click();
-            $(selectThirdPersonModal).waitUntil(Condition.appears,2000);
+            $(selectThirdPersonModal).waitUntil(Condition.appears, 2000);
         }
     }
 
     public void setPayer(String payerType, String paymentForm) {
+
         if (paymentForm.equals("cash") || paymentForm.equals("готівка")) {
             $(cash).click();
         } else if (paymentForm.equals("nonCash") || paymentForm.equals("безготівковий") || (paymentForm.equals("non-cash"))) {
@@ -42,14 +54,16 @@ public class CreateEW {
     public void setPayer(String payerType, String paymentForm, String EDRPOU) throws InterruptedException {
         WebElement thirdPartyPayer = $(By.xpath(".//ul[@id='counterparties_ul_counterparty']/li[@id][@data-edrpou='" + EDRPOU + "']"));
         setPayer(payerType, paymentForm);
-        if (noCounterPartiesFound.getText().length() > 0) {
-            System.out.println(noCounterPartiesFound.getText());
+        WebElement emptyCounterPartyList = $(By.xpath(".//p[@class='alert centered empty_list']"));
+
+        $(selectThirdPersonModal).waitUntil(Condition.visible,2000);
+
+        if (assertions.elementIsVisible(emptyCounterPartyList, 1000)) {
             createThirdPartyPayer(EDRPOU);
-        } else {
-            System.out.println("Обрано платника: " + thirdPartyPayer.getText());
-            $(thirdPartyPayer).click();
-            $(confirmChooseButton).click();
         }
+
+        $(thirdPartyPayer).waitUntil(Condition.visible, 1000).scrollTo().hover().click();
+        $(confirmChooseButton).click();
     }
 
     private void createThirdPartyPayer(String EDRPOU) throws InterruptedException {
@@ -82,11 +96,9 @@ public class CreateEW {
 
 
     // Third party payer block
-    private WebElement thirdPersonInfoBlock = $(By.xpath("//dl[@id='ThirdPersonInfoTable']"));
     private WebElement thirdPersonSelectButton = $(By.xpath("//a[@id='ThirdPersonSelectButton']"));
     private WebElement selectThirdPersonModal = $(By.xpath("//div[@id='selectThirdPersonModal']"));
 
-    private WebElement noCounterPartiesFound = $(By.xpath(".//p[@class='alert centered empty_list']"));
     private WebElement counterPartyAddPayerButton = $(By.xpath(".//a[@id='createCounterpartyThirdPerson']"));
     private WebElement counterpartyEDRPOU = $(By.xpath(".//input[@id='counterpartyEDRPOU']"));
     private WebElement counterPartyAddCreateButton = $(By.xpath(".//button[@id='counterpartyThirdPersonSaveButton']"));

@@ -6,18 +6,18 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import ua.novaposhta.test.helper.Assertions;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
-public class CreateEN_Page {
+public class Web_CreateEWPage {
 
-    public CreateEN_Page() {
+    public Web_CreateEWPage() {
         String pageURL = "https://my.novaposhta.ua/newOrder/index";
         if (!getWebDriver().getCurrentUrl().equals(pageURL)) {
             Main_Page mainPage = new Main_Page();
@@ -57,25 +57,20 @@ public class CreateEN_Page {
         WebElement cityEl = $(By.xpath(".//*[@id='cities_ul']//a[normalize-space(text()) = normalize-space('" + city + "')]"));
         $(By.xpath("//input[@id='filter_journal_cities']//../div")).shouldBe(Condition.visible).click();
         $(cityEl).waitUntil(Condition.visible, 2500);
-//        while (true) {
-//            if (!$(citySelected).getText().equals(city)) {
-//                $(cityEl).scrollTo().hover().click();
-//                if ($(citySelected).getText().equals(city)) {
-//                    System.out.println("Обрано місто: " + $(citySelected).getText());
-//                    break;
-//                }
-//            } else break;
-//        }
 
         while (true) {
-            if (assertions.elementIsVisible(citySelected)){
-                $(cityEl).scrollTo().hover().click();
+            if (assertions.elementIsVisible(citySelected, 2000)) {
+                while (!$(citySelected).getText().equals(city)) {
+                    $(cityEl).scrollTo().hover().click();
+                }
                 if ($(citySelected).getText().equals(city)) {
                     System.out.println("Обрано місто: " + $(citySelected).getText());
                     break;
                 }
             } else break;
         }
+
+        assert $(citySelected).getText().equals(city);
     }
 
     private void setWarehouse(String warehouse) {
@@ -114,7 +109,7 @@ public class CreateEN_Page {
 
 // THIRD PARTY PAYER AND PAYMENT FORM ==================================================================================
 
-    public void setPayer(String payerType) {
+    private void setPayer(String payerType) {
         if (payerType.equals("sender") || payerType.equals("відправник")) {
             $(payerIsSender).click();
         }
@@ -122,35 +117,39 @@ public class CreateEN_Page {
             $(payerIsRecipient).click();
         }
         if (payerType.equals("third person") || payerType.equals("третя особа")) {
+
+            WebElement payerIsThirdPerson = $(By.xpath("//button[@id='ThirdPersonPayer']"));
             $(payerIsThirdPerson).click();
+            WebElement thirdPersonInfoBlock = $(By.xpath("//dl[@id='ThirdPersonInfoTable']"));
             $(thirdPersonInfoBlock).shouldBe(Condition.appears);
+            WebElement thirdPersonSelectButton = $(By.xpath("//a[@id='ThirdPersonSelectButton']"));
             $(thirdPersonSelectButton).scrollTo().click();
-            $(selectThirdPersonModal).shouldBe(Condition.appears);
+            $(selectThirdPersonModal).waitUntil(Condition.appears, 2000);
         }
     }
 
-    public void setPayer(String payerType, String paymentForm) {
+    public void setPayer(String payerType, String paymentForm) throws InterruptedException {
         if (paymentForm.equals("cash") || paymentForm.equals("готівка")) {
-            setPayer(payerType);
-            $(cash).click();
-        } else if (paymentForm.equals("nonCash") || paymentForm.equals("безготівковий")) {
-            setPayer(payerType);
-            $(nonCash).click();
+            $(cash).scrollTo().click();
+        } else if (paymentForm.equals("nonCash") || paymentForm.equals("безготівковий") || (paymentForm.equals("non-cash"))) {
+            $(nonCash).scrollTo().click();
         }
+        setPayer(payerType);
     }
 
     public void setPayer(String payerType, String paymentForm, String EDRPOU) throws InterruptedException {
         WebElement thirdPartyPayer = $(By.xpath(".//ul[@id='counterparties_ul_counterparty']/li[@id][@data-edrpou='" + EDRPOU + "']"));
-
         setPayer(payerType, paymentForm);
-        if (noCounterPartiesFound.getText().length() > 0) {
-            System.out.println(noCounterPartiesFound.getText());
+        WebElement emptyCounterPartyList = $(By.xpath(".//p[@class='alert centered empty_list']"));
+
+        $(selectThirdPersonModal).waitUntil(Condition.visible, 2000);
+
+        if (assertions.elementIsVisible(emptyCounterPartyList, 1000)) {
             createThirdPartyPayer(EDRPOU);
-        } else {
-            System.out.println("Обрано платника: " + thirdPartyPayer.getText());
-            $(thirdPartyPayer).click();
-            $(confirmChooseButton).click();
         }
+
+        $(thirdPartyPayer).waitUntil(Condition.visible, 1000).scrollTo().hover().click();
+        $(confirmChooseButton).click();
     }
 
 
@@ -180,30 +179,54 @@ public class CreateEN_Page {
 
 // ENF OF THIRD PARTY PAYER AND PAYMENT FORM ===========================================================================
 
-// SENDING AND DELIVERY (desired) DATE =================================================================================
-
-    private void setDateFrom(int date) throws InterruptedException {
-        $(dateFrom).scrollTo().click();
-        $(By.xpath("//div[@class='datetimepicker-days']//td[contains(@class,'day')][.='" + date + "']")).shouldBe(Condition.visible).click();
+    // SENDING AND DELIVERY (desired) DATE =================================================================================
+    private void setDate(String date) throws InterruptedException {
+        $(By.xpath(".//div[contains(@class,'datetimepicker-dropdown')]" +
+                "[contains(@style,'display: block;')]" +
+                "//td[contains(@class,'day')][not(contains(@class, 'disabled'))]" +
+                "[.='" + date + "']"))
+                .shouldBe(Condition.visible).click();
     }
 
-    private void setDateTo(String date) throws InterruptedException {
-        $(dateTo).scrollTo().click();
-        $(By.xpath("(.//div[@class='datetimepicker-days']//td[contains(@class,'day')][not(contains(@class, 'disabled'))][.='" + date + "'])[last()]")).shouldBe(Condition.visible).click();
+    public Date getSendingDate() throws ParseException {
+        WebElement sDate = $(By.xpath("//input[@id='DateTime']"));
+        String sendingDate = $(sDate).getValue();
+        DateFormat format = new SimpleDateFormat("d.M.y", Locale.getDefault());
+        return format.parse(sendingDate);
     }
 
-    public void setDate(String days) throws InterruptedException {
+    public void setSendingDate(String days) throws InterruptedException {
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.DATE, Integer.parseInt(days));
         Date day = calendar.getTime();
 
-        int from = date.getDate();
+        $(dateFrom).scrollTo().click();
         days = String.valueOf(day.getDate());
+        setDate(days);
+    }
 
-        setDateFrom(from);
-        setDateTo(days);
+    public void setDeliveryDate(int days) throws InterruptedException, ParseException {
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DATE, days);
+        $(dateTo).scrollTo().click();
+
+        ArrayList<WebElement> list = new ArrayList<>();
+        list.addAll(getWebDriver().findElements(By.xpath(".//div[contains(@class,'datetimepicker-dropdown')]" +
+                "[contains(@style,'display: block;')]" +
+                "//td[@class='day' or @class='day new']")));
+        System.out.print("Доступні дати для бажаної доставки: ");
+        for (WebElement el : list) {
+            System.out.print(el.getText() + " ");
+            assert el.isDisplayed();
+        }
+        $(list.get((days-1))).click();
+    }
+    public void setDeliveryDate(String days) throws InterruptedException, ParseException {
+        setDeliveryDate(Integer.parseInt(days));
     }
 
 // END OF SENDING AND DELIVERY (desired) DATE ==========================================================================
@@ -299,7 +322,7 @@ public class CreateEN_Page {
         }
     }
 
-    private void setParcel(int width, int length, int heigth, int weigth){
+    private void setParcel(int width, int length, int heigth, int weigth) {
         WebElement setParametersOfEachPlace = $(By.xpath("//a[@id='buttonOptionsSeat']"));
         WebElement selectOptionsSeatModal = $(By.xpath("//div[@id='selectOptionsSeatModal']"));
         WebElement iWidth = $(By.xpath("(//input[@class='mask-integer_4 optionsSeat_volumetricWidth'])[1]"));
@@ -311,7 +334,7 @@ public class CreateEN_Page {
         $(setParametersOfEachPlace).click();
         $(selectOptionsSeatModal).shouldBe(Condition.appears);
 
-        $(iWidth).waitUntil(Condition.visible,5000).setValue(String.valueOf(width));
+        $(iWidth).waitUntil(Condition.visible, 5000).setValue(String.valueOf(width));
         $(iLength).setValue(String.valueOf(length));
         $(iHeight).setValue(String.valueOf(heigth));
         $(iWeight).setValue(String.valueOf(weigth));
@@ -320,8 +343,8 @@ public class CreateEN_Page {
 
     public void setCargo(String type, String weight, int seatsAmount, int cost, String description) {
         setCargoType(type);
-        if (type.equals("посилка") || type.equals("parcel")){
-            setParcel(100,100,100,50);
+        if (type.equals("посилка") || type.equals("parcel")) {
+            setParcel(100, 100, 100, 50);
             setCost(cost);
             setSeatsAmount(seatsAmount);
             setDescription(description);
@@ -338,17 +361,17 @@ public class CreateEN_Page {
 
 // BACKWARD DELIVERY ===================================================================================================
 
-    private void setRedeliveryObject(String object){
+    public void setRedeliveryObject(String object) {
         WebElement redeliveryList = $(By.xpath("//span[@id='redeliveryTypesSelectBoxItArrowContainer']"));
         $(redeliveryList).scrollTo().click();
         String val = "";
-        if (object.equals("documents") || object.equals("документи")){
+        if (object.equals("documents") || object.equals("документи")) {
             val = "1";
         }
-        if (object.equals("money") || object.equals("гроші")){
+        if (object.equals("money") || object.equals("гроші")) {
             val = "2";
         }
-        if (object.equals("other") || object.equals("інше")){
+        if (object.equals("other") || object.equals("інше")) {
             val = "3";
         }
         WebElement type = $(By.xpath("//ul[@id='redeliveryTypesSelectBoxItOptions']/li[@data-id='" + val + "']"));
@@ -358,7 +381,8 @@ public class CreateEN_Page {
         $(type).waitUntil(Condition.visible, 2000).shouldBe(Condition.matchesText(type.getText())).click();
     }
 
-    public void setBackwardDelivery(String object){}
+    public void setBackwardDelivery(String object) {
+    }
 
 // END OF BACKWARD DELIVERY ============================================================================================
 
@@ -411,7 +435,6 @@ public class CreateEN_Page {
     }
 
 
-
 //======================================================================================================================
 
     // Main
@@ -422,8 +445,6 @@ public class CreateEN_Page {
 
     // City
     private WebElement citySelected = $(By.xpath("//*[@id='cities_ul']/li[@class='browser_element_main active']"));
-    private WebElement cityInput = $(By.xpath(".//input[@id='filter_journal_cities']"));
-    private WebElement citiesList = $(By.xpath(".//ul[@id='cities_ul']"));
 
     // Warehouse
     private WebElement addressList = $(By.xpath(".//ul[@id='address_ul']"));
@@ -439,14 +460,9 @@ public class CreateEN_Page {
     // Payer
     private WebElement payerIsSender = $(By.xpath("//button[@id='SenderPayer']"));
     private WebElement payerIsRecipient = $(By.xpath("//button[@id='RecipientPayer']"));
-    private WebElement payerIsThirdPerson = $(By.xpath("//button[@id='ThirdPersonPayer']"));
 
     // Third party payer block
-    private WebElement thirdPersonInfoBlock = $(By.xpath("//dl[@id='ThirdPersonInfoTable']"));
-    private WebElement thirdPersonSelectButton = $(By.xpath("//a[@id='ThirdPersonSelectButton']"));
     private WebElement selectThirdPersonModal = $(By.xpath("//div[@id='selectThirdPersonModal']"));
-
-    private WebElement noCounterPartiesFound = $(By.xpath(".//p[@class='alert centered empty_list']"));
     private WebElement counterPartyAddPayerButton = $(By.xpath(".//a[@id='createCounterpartyThirdPerson']"));
     private WebElement counterpartyEDRPOU = $(By.xpath(".//input[@id='counterpartyEDRPOU']"));
     private WebElement counterPartyAddCreateButton = $(By.xpath(".//button[@id='counterpartyThirdPersonSaveButton']"));

@@ -4,13 +4,13 @@ import org.junit.Before;
 import org.junit.Test;
 import ua.novaposhta.test.properties.Presets;
 import ua.novaposhta.test.properties.PropertyLoader;
-import ua.novaposhta.test.web.debug.CreateEW;
 import ua.novaposhta.test.web.methods.BrowserDriver;
 import ua.novaposhta.test.web.pages.*;
 
 import java.awt.*;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
@@ -101,38 +101,40 @@ public class Web_ClientTests {
     }
 
     @Test // Create EN
-    public void createEN() throws IOException, InterruptedException {
+    public void createEW() throws IOException, InterruptedException, ParseException {
         //INFO: Tested and working
         loginAsLoyal();
-        CreateEN_Page createEN = new CreateEN_Page();
-//        createEN.setCounterparty("sender", property.load("s.city"), property.load("s.warehouse"), property.load("s.phone"));
-//        createEN.setCounterparty("recipient", property.load("r.city"), property.load("r.warehouse"), property.load("r.phone"));
-        //INFO: ==================
+        Web_CreateEWPage createEW = new Web_CreateEWPage();
+        createEW.setCounterparty("sender", property.load("s.city"), property.load("s.warehouse"), property.load("s.phone"));
+        createEW.setCounterparty("recipient", property.load("r.city"), property.load("r.warehouse"), property.load("r.phone"));
+        //info
 
-        //TODO: need to be debugged
         //Платник
-        CreateEW createEW = new CreateEW();
+//        createEW.setPayer("третя особа", "безготівковий", property.load("edrpou"));
+        //BUG: Злітає фокус з 'безготівковий' при виборі платника 'відправник' після вибору форми оплати
+//        createEW.setPayer("sender", "non-cash");
+        //bug
 
-        createEW.setPayer("третя особа", "безготівковий", property.load("edrpou"));
+        //INFO: Tested and working
+        createEW.setSendingDate(property.load("desirableDays")); // Дата відправки
+        createEW.setDeliveryDate(property.load("desirableDays")); // Бажана дата доставки - через скільки днів
+        createEW.setDeliveryDate(2); // Бажана дата доставки - через скільки днів
+        //info
 
+        createEW.setCargo("документи", "0.1", 2, 125, "Опис відправлення");
+        createEW.printDocument("EN", "html"); // EN/ЕН - html/pdf; marking/маркування - html, html-zebra, pdf-zebra
+        createEW.goTo("EN");
 
-//        createEN.setPayer("sender", "non-cash", property.load("edrpou"));
-//        createEN.setDate(property.load("desirableDays")); // Бажана дата доставки - через скільки днів
-//        createEN.setCargo("документи", "0.1", 2, 125, "Опис відправлення");
-//        createEN.printDocument("EN", "html"); // EN/ЕН - html/pdf; marking/маркування - html, html-zebra, pdf-zebra
-//        createEN.goTo("EN");
-
-
-//        createEN.setRedeliveryObject("гроші");
+        createEW.setRedeliveryObject("гроші");
     }
 
-    //    @Test // Scope multiplication
-    public void testScope() throws IOException, InterruptedException {
+        @Test // Scope multiplication
+    public void testScope() throws IOException, InterruptedException, ParseException {
         for (int i = 0; i < 3; i++) {
             System.out.println("try: " + (i + 1));
-            createEN();
+            createEW();
             clearState();
-            CreateEN_Page createEN_page = new CreateEN_Page();
+//            CreateEN_Page createEW_page = new CreateEN_Page();
         }
     }
 }

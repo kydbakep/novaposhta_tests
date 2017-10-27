@@ -8,7 +8,7 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import ua.novaposhta.test.helper.Actions;
+import ua.novaposhta.test.helper.Awis_Actions;
 import ua.novaposhta.test.helper.Assertions;
 
 import java.io.IOException;
@@ -17,13 +17,13 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
-public class CreateEWPage {
+public class Awis_CreateEWPage {
 
-    public CreateEWPage() throws IOException {
+    public Awis_CreateEWPage() throws IOException {
     }
 
     private String number;
-    private Actions action = new Actions();
+    private Awis_Actions action = new Awis_Actions();
 
     public boolean isLoad() {
         WebElement tab = $(By.xpath("//span[.='ЕН: нова']"));
@@ -31,7 +31,7 @@ public class CreateEWPage {
     }
 
     // Обираємо вид ЕН (Покищо не доступно)
-    public CreateEWPage(String type) {
+    public Awis_CreateEWPage(String type) {
         if (type.equals("RMO")) {
             System.out.println("new EN for RMO");
             WebElement tab = $(By.xpath("(//span[.='ЕН: нова'])[1]"));

@@ -3,7 +3,7 @@ package ua.novaposhta.test.awis;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import ua.novaposhta.test.helper.Actions;
+import ua.novaposhta.test.helper.Awis_Actions;
 import ua.novaposhta.test.helper.Assertions;
 import ua.novaposhta.test.awis.pages.Auth;
 import ua.novaposhta.test.awis.pages.Main;
@@ -16,7 +16,7 @@ public class Awis_DocumentsOKButtonsTest {
     }
 
     private Main main = new Main();
-    private Actions action = new Actions();
+    private Awis_Actions action = new Awis_Actions();
     private Assertions assertion = new Assertions();
     private Presets presets = new Presets();
 
