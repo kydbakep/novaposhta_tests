@@ -2,8 +2,8 @@ package ua.novaposhta.test.db;
 
 import org.junit.Before;
 import org.junit.Test;
+import ua.novaposhta.test.helper.DataBase;
 import ua.novaposhta.test.properties.Presets;
-import ua.novaposhta.test.properties.DataBase;
 import ua.novaposhta.test.web.pages.EmailPage;
 
 import java.awt.*;
@@ -45,4 +45,24 @@ public class DBTest {
         codes.addAll(db.getResponse("Code", "wloyaltycardpasswordresetrequest", "Phone", "380633200117"));
         System.out.println(codes.get(codes.size()-1));
     }
+
+//    @Test
+//    public void takeActiveElement() throws IOException, SQLException {
+//        DataBase db = new DataBase("awis.test");
+//        String response = db.getResponse("SELECT Description FROM CatalogCityDistrictsOverride WHERE Ref = " +
+//                "(SELECT Parent FROM CatalogCityDistrictsOverride " +
+//                "WHERE DeletionMark = FALSE " +
+//                "AND IsFolder = FALSE " +
+//                "AND Parent <> '00000000-0000-0000-0000-000000000000' " +
+//                "LIMIT 1)").get(0);
+//
+//        System.out.println(response);
+//    }
+
+    @Test
+    public void validFolderGet() throws SQLException, IOException {
+        DataBase db = new DataBase("awis.test");
+        System.out.println(db.getValidFolder("InfoRegPostomatCellsUsed"));
+    }
+
 }

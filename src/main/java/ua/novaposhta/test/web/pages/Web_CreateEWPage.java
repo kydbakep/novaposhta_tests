@@ -28,6 +28,7 @@ public class Web_CreateEWPage {
     }
 
     private Assertions assertions = new Assertions();
+//    private
 
     private void checkForRefreshed(WebElement element) {
         try {
@@ -352,7 +353,7 @@ public class Web_CreateEWPage {
         setWeight(weight);
         setSeatsAmount(seatsAmount);
         setCost(cost);
-        setDescription(description);
+//        setDescription(description);
         done();
     }
 
@@ -388,8 +389,8 @@ public class Web_CreateEWPage {
 
     public void done() {
         $(createDocumentButton).shouldBe(Condition.enabled).click();
-        $(documentCreatedModal).shouldBe(Condition.appears);
-        $(documentInfo).shouldBe(Condition.appears).shouldBe(Condition.visible);
+        $(documentCreatedModal).waitUntil(Condition.appears,1000);
+        $(documentInfo).waitUntil(Condition.appears,500).shouldBe(Condition.visible);
         System.out.println("Document created: " + $(documentInfo).getText());
     }
 

@@ -1,6 +1,6 @@
 package ua.novaposhta.test.web.pages;
 
-import ua.novaposhta.test.properties.DataBase;
+import ua.novaposhta.test.helper.DataBase;
 import ua.novaposhta.test.properties.PropertyLoader;
 import com.codeborne.selenide.Condition;
 import org.openqa.selenium.By;

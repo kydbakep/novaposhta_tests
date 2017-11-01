@@ -124,8 +124,7 @@ public class Web_ClientTests {
         createEW.setCargo("документи", "0.1", 2, 125, "Опис відправлення");
         createEW.printDocument("EN", "html"); // EN/ЕН - html/pdf; marking/маркування - html, html-zebra, pdf-zebra
         createEW.goTo("EN");
-
-        createEW.setRedeliveryObject("гроші");
+//        createEW.setRedeliveryObject("гроші");
     }
 
         @Test // Scope multiplication

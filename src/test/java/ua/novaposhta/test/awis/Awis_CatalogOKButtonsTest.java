@@ -1,24 +1,36 @@
 package ua.novaposhta.test.awis;
 
+import com.codeborne.selenide.ex.ElementNotFound;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
-import ua.novaposhta.test.helper.Awis_Actions;
-import ua.novaposhta.test.helper.Assertions;
+import org.junit.rules.TestName;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import ua.novaposhta.test.awis.pages.Auth;
 import ua.novaposhta.test.awis.pages.Main;
+import ua.novaposhta.test.helper.Assertions;
+import ua.novaposhta.test.helper.Awis_Actions;
 import ua.novaposhta.test.properties.Presets;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
+import static com.codeborne.selenide.Selenide.$;
 
 public class Awis_CatalogOKButtonsTest {
     public Awis_CatalogOKButtonsTest() throws IOException {
     }
 
+    @Rule
+    public TestName name = new TestName();
+
     private Main main = new Main();
     private Awis_Actions action = new Awis_Actions();
     private Assertions assertion = new Assertions();
     private Presets presets = new Presets();
+    private String DATABASE = "awis.test";
 
     @Before
     public void loadPresets() throws IOException {
@@ -35,137 +47,160 @@ public class Awis_CatalogOKButtonsTest {
         action.closeAllTabs();
     }
 
+    private void findAndClickOKButton(String tableName) throws IOException, SQLException, InterruptedException {
+        action.choiceFirstActualWrite(DATABASE, tableName);
+        try {
+            action.clickOKButton();
+        } catch (ElementNotFound notFound) {
+            action.clickOKButton(1500);
+        }
+    }
+
     @Test
-    public void conglomerates() throws InterruptedException, IOException {
+    public void conglomerates() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Конгломерати");
-        action.choiceTableElement(1);
-        action.clickOKButton();
+        findAndClickOKButton("CatalogConglomerates");
     }
 
     @Test
-    public void counterparties() throws InterruptedException, IOException {
+    public void counterparties() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Контрагенти");
-        action.choiceTableElement(1);
-        action.clickOKButton();
+        findAndClickOKButton("CatalogCounterparties");
     }
 
     @Test
-    public void cashRegisters() throws InterruptedException, IOException {
+    public void cashRegisters() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Каси");
-        action.choiceTableElement(1);
-        action.clickOKButton();
+        findAndClickOKButton("CatalogClientCashDesks");
     }
 
     @Test
-    public void cashRegistersCatalogue() throws InterruptedException, IOException {
+    public void cashRegistersCatalogue() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Реєстр комірок поштоматів");
-        action.choiceTableElement(1);
-        action.clickOKButton();
+        findAndClickOKButton("CatalogPostomatCells");
     }
 
     @Test
-    public void cashRegistersReservedCatalogue() throws InterruptedException, IOException {
+    public void cashRegistersReservedCatalogue() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Реєстр заброньованих комірок поштоматів");
-        action.choiceTableElement(1);
-        action.clickOKButton();
+        WebElement el = $(By.xpath("(//tr[contains(@class,'x-grid-row')][not(contains(@class,'header'))]/td[6]/div[text()>0])[1]"));
+        $(el).doubleClick();
+        if (assertion.alert(500)){
+            action.acceptAlert();
+            action.clickOKButton();
+        }
     }
 
     @Test
-    public void fiscalRegisters() throws InterruptedException, IOException {
+    public void fiscalRegisters() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Фіскальні реєстратори");
-        action.choiceTableElement(1);
-        action.clickOKButton();
+        String tableName = "CatalogFiscalRegisters";
+        findAndClickOKButton(tableName);
     }
 
     @Test
-    public void cashRegistersForOperators() throws InterruptedException, IOException {
+    public void cashRegistersForOperators() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Каси операторів");
-        action.choiceTableElement(1);
-        action.clickOKButton();
+        String tableName = "CatalogOperatorCashDesks";
+        findAndClickOKButton(tableName);
     }
 
     @Test
-    public void settlements_settlements() throws InterruptedException, IOException {
+    public void settlements_settlements() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Населені пункти", "Населені пункти");
-        action.choiceTableElement(1);
-        action.clickOKButton();
+        String tableName = "CatalogSettlements";
+        findAndClickOKButton(tableName);
     }
 
     @Test
-    public void settlements_administrativeStructure() throws InterruptedException, IOException {
+    public void settlements_administrativeStructure() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Населені пункти", "Адміністративний устрій");
-        action.choiceTableElement(1);
-        action.clickOKButton();
+        String tableName = "CatalogSettlementsHierarchical";
+        findAndClickOKButton(tableName);
     }
 
     @Test
-    public void settlements_types() throws InterruptedException, IOException {
+    public void settlements_types() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Населені пункти", "Типи населених пунктів");
-        action.choiceTableElement(1);
-        action.clickOKButton();
+        String tableName = "CatalogSettlementTypes";
+        findAndClickOKButton(tableName);
     }
 
     @Test
-    public void settlements_regionTypes() throws InterruptedException, IOException {
+    public void settlements_regionTypes() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Населені пункти", "Типи регіонів");
-        action.choiceTableElement(1);
-        action.clickOKButton();
+        String tableName = "CatalogCountryRegionTypes";
+        findAndClickOKButton(tableName);
     }
 
     @Test
-    public void settlements_streets() throws InterruptedException, IOException {
+    public void settlements_streets() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Населені пункти", "Вулиці");
-        action.choiceTableElement(1);
-        action.clickOKButton();
+        String tableName = "CatalogSettlementStreets";
+        findAndClickOKButton(tableName);
     }
 
     @Test
-    public void settlements_buildings() throws InterruptedException, IOException {
+    public void settlements_buildings() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Населені пункти", "Будівлі");
-        action.choiceTableElement(1);
-        action.clickOKButton();
+        String tableName = "CatalogStreetBuildings";
+        findAndClickOKButton(tableName);
     }
 
     @Test
-    public void settlements_indexTypes() throws InterruptedException, IOException {
+    public void settlements_streetTypes() throws InterruptedException, IOException, SQLException {
+        main.moveTo("Довідники", "Населені пункти", "Типи вулиць");
+        String tableName = "CatalogSettlementStreetTypes";
+        findAndClickOKButton(tableName);
+    }
+
+    @Test
+    public void settlements_indexTypes() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Населені пункти", "Типи поштових індексів");
-        action.choiceTableElement(1);
-        action.clickOKButton();
+        String tableName = "CatalogPostcodeTypes";
+        findAndClickOKButton(tableName);
     }
 
     @Test
-    public void warehouses() throws InterruptedException, IOException {
+    public void warehouses() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Склади");
-        action.choiceTableElement(1);
-        action.clickOKButton();
+        findAndClickOKButton("CatalogWarehouses");
     }
 
     @Test
-    public void warehouseAreas() throws InterruptedException, IOException {
-        main.moveTo("Довідники", "Ділянки складів");
-        action.choiceTableElement(1);
-        action.clickOKButton();
-    }
-
-    @Test
-    public void operationNormsOnWarehouse() throws InterruptedException, IOException {
+    public void operationNormsOnWarehouse() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Норми операцій на склад");
-        action.choiceTableElement(1);
-        action.clickOKButton();
+        findAndClickOKButton("CatalogWarehouseOperationNorms");
     }
 
     @Test
-    public void operationTypesOnWarehouse() throws InterruptedException, IOException {
+    public void operationTypesOnWarehouse() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Види операцій на складі");
-        action.choiceTableElement(1);
-        action.clickOKButton();
+        findAndClickOKButton("CatalogWarehouseOperationTypes");
     }
 
     @Test
-    public void warehouseZonesForRecipient() throws InterruptedException, IOException {
+    public void warehouseZonesForRecipient() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Зони складів для складу отримувача");
-        action.choiceTableElement(1);
-        action.clickOKButton();
+        findAndClickOKButton("CatalogIntercityZonesForWarehouseRecipient");
+    }
+
+    @Test
+    public void valueCollections() throws InterruptedException, IOException, SQLException {
+        main.moveTo("Довідники", "Набори значень");
+        findAndClickOKButton("CatalogSetsOfValues");
+    }
+
+    @Test
+    public void warehouseAreas() throws InterruptedException, IOException, SQLException {
+        main.moveTo("Довідники", "Ділянки складів");
+        findAndClickOKButton("CatalogWarehouseParts");
+    }
+
+    @Test
+    public void cityAreas() throws InterruptedException, IOException, SQLException {
+        main.moveTo("Довідники", "Райони міста");
+        findAndClickOKButton("CatalogWarehouseParts");
     }
 
     @Test
@@ -176,110 +211,119 @@ public class Awis_CatalogOKButtonsTest {
     }
 
     @Test
-    public void valueCollections() throws InterruptedException, IOException {
-        main.moveTo("Довідники", "Ділянки складів");
-        action.choiceTableElement(1);
-        action.clickOKButton();
-    }
-
-    @Test
-    public void loyalty_clientCards() throws InterruptedException, IOException {
+    public void loyalty_clientCards() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Лояльність. Картки клієнтів");
-        action.choiceTableElement(1);
-        action.clickOKButton();
+        findAndClickOKButton("CatalogCustomerLoyaltyCard");
     }
 
     @Test
-    public void autoScales() throws InterruptedException, IOException {
+    public void autoScales() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Автоматичні ваги");
-        action.choiceTableElement(1);
-        action.clickOKButton();
+        findAndClickOKButton("CatalogAutomaticScales");
     }
 
     @Test
-    public void IP_cameras() throws InterruptedException, IOException {
+    public void IP_cameras() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "IP камери");
-        action.choiceTableElement(1);
-        action.clickOKButton();
+        findAndClickOKButton("CatalogIPCameras");
     }
 
     @Test
-    public void informTemplates() throws InterruptedException, IOException {
+    public void informTemplates() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Шаблони інформування");
-        action.choiceTableElement(15);
-        action.clickOKButton();
+        findAndClickOKButton("CatalogInformingTemplates");
     }
 
     @Test
-    public void write_ofParametersCMV() throws InterruptedException, IOException {
+    public void write_ofParametersCMV() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Параметры списания ТМЦ");
-        action.choiceTableElement(1);
-        action.clickOKButton();
+        findAndClickOKButton("CatalogMaterialAssetsAccountingParameters");
     }
 
     @Test
-    public void areaRedefining() throws InterruptedException, IOException {
+    public void areaRedefining() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Перевизначення районів");
-        action.choiceTableElement(1);
-        action.clickOKButton();
+        findAndClickOKButton("CatalogCityDistrictsOverride");
     }
 
     @Test
-    public void parametersOfNonStandardEWBasedOf() throws InterruptedException, IOException {
+    public void parametersOfNonStandardEWBasedOf() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Параметри нестандартних ЕН на підставі");
-        action.choiceTableElement(1);
-        action.clickOKButton();
+        findAndClickOKButton("CatalogCustomBackwardDeliveryParameters");
     }
 
     @Test
-    public void wallets() throws InterruptedException, IOException {
+    public void wallets() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Грошові гаманці");
-        action.choiceTableElement(1);
-        action.clickOKButton();
+        findAndClickOKButton("CatalogMoneyWallets");
     }
 
     @Test
-    public void conditions() throws InterruptedException, IOException {
+    public void conditions() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Умови");
-        action.choiceTableElement(1);
-        action.clickOKButton();
+        findAndClickOKButton("CatalogConditions");
     }
 
     @Test
-    public void cargoTrackingTemplates() throws InterruptedException, IOException {
+    public void cargoTrackingStatuses() throws InterruptedException, IOException, SQLException {
+        main.moveTo("Довідники", "Статуси відстеження вантажу");
+        findAndClickOKButton("CatalogTrackingStatuses");
+    }
+
+    @Test
+    public void cargoTrackingTemplates() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Шаблони відстеження вантажу");
-        action.choiceTableElement(7);
-        action.clickOKButton();
+        findAndClickOKButton("CatalogTrackingTemplates");
     }
 
     @Test
-    public void proxies() throws InterruptedException, IOException {
+    public void cargoTrackingRequestTemplates() throws InterruptedException, IOException, SQLException {
+        main.moveTo("Довідники", "Шаблони відстеження вантажу");
+        findAndClickOKButton("CatalogRequestForTransportationTemplates");
+    }
+
+    @Test
+    public void attorneys() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Довіреності");
-        action.choiceTableElement(3);
-        action.clickOKButton();
+        findAndClickOKButton("CatalogAttorneys");
     }
 
     @Test
-    public void banks() throws InterruptedException, IOException {
+    public void banks() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Банки");
-        action.choiceTableElement(1);
-        action.clickOKButton();
+        findAndClickOKButton("CatalogBanks");
     }
 
     @Test
-    public void pickUpServices() throws InterruptedException, IOException {
+    public void pickUpServices() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Сервіси PickUp");
-        action.choiceTableElement(2);
-        action.clickOKButton();
+        findAndClickOKButton("CatalogPickUpServices");
     }
 
     @Test
-    public void serviceConstructor() throws InterruptedException, IOException {
+    public void serviceConstructor() throws InterruptedException, IOException, SQLException {
         main.moveTo("Довідники", "Конструктор послуг");
-        action.choiceTableElement(8);
+        findAndClickOKButton("CatalogConditionsOfProvidedServices");
+    }
+
+
+    //======================================================================================================================
+//    @Test
+    public void clickActualFolder() throws IOException, SQLException, InterruptedException {
+        main.moveTo("Довідники", "Перевизначення районів");
+        String tableName = "CatalogCityDistrictsOverride";
+        action.choiceFirstActualWrite(DATABASE, tableName);
         action.clickOKButton();
     }
 
+    //    @Test
+    public void loggingTest() throws IOException, SQLException, InterruptedException {
+        main.moveTo("Довідники", "Фізичні особи");
+        String tableName = "CatalogStaffs";
+        action.choiceFirstActualWrite(DATABASE, tableName);
+        action.clickOKButton();
+    }
 }
+
 
 

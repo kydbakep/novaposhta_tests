@@ -7,6 +7,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import ua.novaposhta.test.helper.elements.Items;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
@@ -28,7 +31,7 @@ public class Awis_Actions {
         return $(By.xpath("//span[.='" + name + "']"));
     }
 
-    public WebElement getMenuItem(String root, String name, String item){
+    public WebElement getMenuItem(String root, String name, String item) {
         getMenuItem(root).click();
 
         WebElement menuItem = $(By.xpath("(//span[.='" + name + "'])"));
@@ -36,7 +39,7 @@ public class Awis_Actions {
 
         WebElement submenuItem = $(By.xpath("(//span[.='" + item + "'])"));
         if (menuItem.isDisplayed()) {
-            if (assertion.elementIsVisible($(By.xpath("(//span[.='" + item + "'])" + "[2]")),300)){
+            if (assertion.elementIsVisible($(By.xpath("(//span[.='" + item + "'])" + "[2]")), 300)) {
                 submenuItem = $(By.xpath("(//span[.='" + item + "'])" + "[2]"));
             }
         }
@@ -48,7 +51,7 @@ public class Awis_Actions {
     public void click(WebElement element) {
         if ((element.getAttribute("aria-disabled") == null)
                 || (element.getAttribute("aria-disabled").equals("false"))) {
-            $(element).click();
+            $(element).waitUntil(Condition.visible,1000).click();
         } else if (element.getAttribute("aria-disabled").equals("true")) {
             throw new IllegalMonitorStateException("element '" + element.getText().trim() + "' is not active");
         }
@@ -111,4 +114,48 @@ public class Awis_Actions {
             acceptAlert();
         }
     }
+
+    public void clickOKButton(int time) throws InterruptedException {
+        click(button.writeAndCloseButton(time));
+        if (assertion.alert(500)) {
+            acceptAlert();
+        }
+    }
+
+    public void choiceFirstActualWrite() throws SQLException, IOException {
+        WebElement firstActualWrite = $(By.xpath("(//img[contains(@class,'catalog-item')][not(contains(@class,'-deletion'))])[1]"));
+        $(firstActualWrite).doubleClick();
+    }
+
+    public void choiceFirstActualWrite(String dbName, String tableName) throws SQLException, IOException, InterruptedException {
+//        WebElement firstActualWrite = item.catalogueItem(1);
+        WebElement firstActualWrite = $(By.xpath("(//img[contains(@class,'catalog-item')][not(contains(@class,'-deletion'))])[1]"));
+
+        while (!firstActualWrite.isDisplayed()){
+            if (assertion.elementIsVisible(firstActualWrite)) {
+                $(firstActualWrite).scrollTo().hover().doubleClick();
+            } else {
+                DataBase db = new DataBase(dbName);
+                $(db.validFolder(tableName)).waitUntil(Condition.visible,1000).doubleClick();
+                $(firstActualWrite).doubleClick();
+                if (assertion.alert(500)){
+                    acceptAlert();
+                    throw new IllegalMonitorStateException("ALERT");
+                }
+            }
+        }
+    }
+
+    public void choiceFirstActualWrite(String dbName, String tableName, String sql) throws SQLException, IOException {
+        DataBase db = new DataBase(dbName);
+        WebElement firstActualWrite = $(By.xpath("(//img[contains(@class,'catalog-item') and not(contains(@class,'-deletion'))])[1]"));
+
+        if (assertion.elementIsVisible(firstActualWrite)) {
+            $(firstActualWrite).scrollTo().hover().doubleClick();
+        } else {
+            $(db.validFolder(tableName, sql)).doubleClick();
+            $(firstActualWrite).doubleClick();
+        }
+    }
+
 }

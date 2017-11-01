@@ -25,4 +25,19 @@ public class PathFinder {
         }
         return path;
     }
+
+    public String path(String path, ArrayList list, int time){
+        Assertions a = new Assertions();
+        if (a.elementIsVisible($(By.xpath(path)),time)) {
+            return path;
+        } else {
+            for (Object selector : list) {
+                path = selector.toString();
+                if ($(By.xpath(String.valueOf(selector))).isDisplayed()) {
+                    path = selector.toString();
+                }
+            }
+        }
+        return path;
+    }
 }

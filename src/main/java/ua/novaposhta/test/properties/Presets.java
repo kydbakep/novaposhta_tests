@@ -18,6 +18,7 @@ public class Presets {
 
     public void loadPresets() throws IOException {
         Configuration.browser = browser.load("browser");
+
         String os = System.getProperty("os.name");
         System.out.println("operating system is: " + os);
         if (os.toLowerCase().contains("windows")) {
